@@ -1,5 +1,2 @@
-# ROS package set for Autoproj
-
-## 1. Updating this package set
-
-Auto update package for autoproj
+# ros2.base-package_set
+Autoproj base package setup for ros2
