@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: ros.base
+name: ros2.base
 
 imports:
     - github: orise-robotics/python.base-package_set
