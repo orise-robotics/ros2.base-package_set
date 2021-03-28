@@ -15,5 +15,4 @@
 name: ros.base
 
 imports:
-    - type: local
-      url: python.base-package_set
+    - github: orise-robotics/python.base-package_set

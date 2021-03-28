@@ -21,8 +21,10 @@ module Autobuild
         attr_accessor :parent_pkg
 
         def update_srcdir
+            if parent_pkg
+              @importdir = File.join(parent_pkg.importdir, "banana")
+            end
             super
-            @importdir = File.join(parent_pkg.importdir, "banana")
         end
 
         def import(options)

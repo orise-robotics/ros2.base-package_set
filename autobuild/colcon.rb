@@ -88,7 +88,6 @@ module Autobuild
       super(options)
       @delete_obsolete_files_in_prefix = self.class.
           delete_obsolete_files_in_prefix?
-      puts importdir
       update_srcdir
       setup_tests
     end
@@ -119,7 +118,6 @@ module Autobuild
     end
 
     def setup_tests
-      puts srcdir
       unless test_utility.has_task?
         test_dir = File.join(srcdir, 'test')
         if File.directory?(test_dir)

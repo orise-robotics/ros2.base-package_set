@@ -1,6 +1,5 @@
 def ament_package_setup(pkg)
     pkg.update_srcdir
-    puts pkg.srcdir
     pkg.post_import do
         test_dir = File.join(pkg.srcdir, 'test')
         if File.directory?(test_dir)
