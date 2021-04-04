@@ -44,8 +44,8 @@ module Autobuild
 
           (['sh'] + Autoproj.config.user_shells).each do |shell|
             shell_helper = "local_setup.#{shell}"
-            FileUtils.touch File.join(Autoproj.prefix, 'share', name, shell_helper)
-            Autoproj.env_source_after(File.join(Autoproj.prefix, 'share', name, shell_helper), shell: shell)
+            FileUtils.touch File.join(@prefix, 'share', name, shell_helper)
+            Autoproj.env_source_after(File.join(@prefix, 'share', name, shell_helper), shell: shell)
           end
         end
 

@@ -20,6 +20,8 @@ ws.config.declare 'ros_distro', 'string',
 
 ROS_DISTRO = ws.config.get('ros_distro',nil)
 
+Autoproj.config.separate_prefixes = true
+Autobuild::CMake.delete_obsolete_files_in_prefix = Autoproj.config.separate_prefixes?
 
 ROS_DISTRO_PATH = File.join('/opt', 'ros', ROS_DISTRO)
 
@@ -32,12 +34,18 @@ Autoproj.env_add_path 'PATH', File.join(ROS_DISTRO_PATH, 'bin')
 Autoproj.env_add_path 'LD_LIBRARY_PATH', File.join(ROS_DISTRO_PATH, 'lib')
 Autoproj.env_add_path 'PKG_CONFIG_PATH', File.join(ROS_DISTRO_PATH, 'lib', 'pkgconfig')
 Autoproj.env_add_path 'ROS_PACKAGE_PATH', File.join(ROS_DISTRO_PATH, 'share')
+Autoproj.env_add_path 'COLCON_CURRENT_PREFIX', Autoproj.prefix
 
 Autobuild::CMake.prefix_path << ROS_DISTRO_PATH
 
 Autoproj.config.set('build', File.join(Autoproj.root_dir, 'build')) unless Autoproj.config.get('build', nil)
 Autoproj.config.set('source', 'src') unless Autoproj.config.source_dir
-Autoproj.config.set('USE_PYTHON', 'YES') unless Autoproj.config.get('build', nil)
+Autoproj.config.set('USE_PYTHON', 'YES') unless Autoproj.config.get('USE_PYTHON', nil)
+
+(['sh'] + Autoproj.config.user_shells).each do |shell|
+  shell_helper = "setup.#{shell}"
+  Autoproj.env_source_after(File.join(ROS_DISTRO_PATH, shell_helper), shell: shell) if File.join(ROS_DISTRO_PATH, shell_helper)
+end
 
 (['sh'] + Autoproj.config.user_shells).each do |shell|
   shell_helper = "setup.#{shell}"
