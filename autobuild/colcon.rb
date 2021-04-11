@@ -98,13 +98,13 @@ module Autobuild
       usual_manifestdir = File.join(srcdir, name, 'package.xml')
 
       if File.exist?(usual_manifestdir)
-          srcdir = File.dirname(usual_manifestdir)
+          @srcdir = File.dirname(usual_manifestdir)
           return
       end
 
-      dir_glob = "#{importdir}/**/#{name}/package.xml"
+      dir_glob = File.join(importdir, "**", name, "package.xml")
       @srcdir = (Dir[dir_glob].map do |path|
-          File.dirname(path)
+        File.dirname(path)
       end.first || @srcdir)
     end
 
@@ -112,7 +112,6 @@ module Autobuild
       @mutex.synchronize do
           return if updated? || failed?
           result = super(**options)
-          update_srcdir
           result
       end
     end
@@ -168,14 +167,8 @@ module Autobuild
     end
 
     def with_tests
-      command = generate_colcon_test_command("test", all_keyargs)
       test_utility.task do
-          progress_start "running tests for %s",
-                         done_message: 'tests passed for %s' do
-              run('test',
-                  command,
-                  working_directory: Autoproj.root_dir)
-          end
+        colcon_command("test", all_keyargs, "Starting colcon tests for #{name}", "End colcon tests for #{name}")
       end
   end
 

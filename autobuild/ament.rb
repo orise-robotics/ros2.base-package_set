@@ -46,6 +46,13 @@ module Autobuild
             shell_helper = "local_setup.#{shell}"
             FileUtils.touch File.join(@prefix, 'share', name, shell_helper)
             Autoproj.env_source_after(File.join(@prefix, 'share', name, shell_helper), shell: shell)
+          
+            # Cheat for expected 'sh' file for isolated environment
+            # fragile solution
+            dir_name = File.join(Autoproj.prefix, 'share', name)
+            FileUtils.mkdir_p dir_name
+            FileUtils.touch File.join(dir_name, "package.#{shell}")
+
           end
         end
 
