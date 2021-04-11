@@ -93,7 +93,7 @@ module Autobuild
     end
 
     def update_srcdir
-      importdir ||= srcdir
+      @importdir ||= srcdir
       return if File.exist?(File.join(srcdir, 'package.xml'))
       usual_manifestdir = File.join(srcdir, name, 'package.xml')
 
