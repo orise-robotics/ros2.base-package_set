@@ -1,4 +1,4 @@
-# Copyright 2021 Open Rise Robotics Modification
+# Copyright 2021 Open Rise Robotics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
 # limitations under the License.
 
 module Autobuild
-    def self.ament(options, &block)
-        Ament.new(options, &block)
+    def self.ament_cmake(options, &block)
+        AmentCmake.new(options, &block)
     end
 
-    class Ament < Autobuild::CMake
+    class AmentCmake < Autobuild::CMake
         def initialize(options)
             super(options)
             @mutex = Mutex.new
@@ -49,7 +49,7 @@ module Autobuild
           
             # Cheat for expected 'sh' file for isolated environment
             # fragile solution
-            dir_name = File.join(Autoproj.prefix, 'share', name)
+            dir_name = File.join(Autoproj.prefix, name, 'share', name)
             FileUtils.mkdir_p dir_name
             FileUtils.touch File.join(dir_name, "package.#{shell}")
 

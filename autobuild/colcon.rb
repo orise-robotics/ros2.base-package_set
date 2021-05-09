@@ -1,4 +1,4 @@
-# Copyright 2021 Open Rise Robotics Modification
+# Copyright 2021 Open Rise Robotics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -64,7 +64,6 @@ module Autobuild
     def all_keyargs
       additional_keyargs = Hash[
           "--packages-select" => name,
-          "--merge-install" => "",
           "--event-handlers" => "console_direct+"]
       keyargs.merge(additional_keyargs).merge(keyargs)
     end

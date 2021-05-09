@@ -1,4 +1,4 @@
-# Copyright 2021 Open Rise Robotics
+# Copyright 2021 Open Rise Robotics Modification
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,15 +27,15 @@ def ament_package_setup(pkg)
     pkg.use_package_xml = true
 end
 
-def ament_package(name, workspace: Autoproj.workspace)
-    package_common(:ament, name, workspace: workspace) do |pkg|
+def ament_cmake_package(name, workspace: Autoproj.workspace)
+    package_common(:ament_cmake, name, workspace: workspace) do |pkg|
         ament_package_setup(pkg)
         yield(pkg) if block_given?
     end
 end
 
-def ament_nested_package(name, parent_pkg, workspace: Autoproj.workspace)
-    package_common(:ament_nested, name, workspace: workspace) do |pkg|
+def ament_cmake_nested_package(name, parent_pkg, workspace: Autoproj.workspace)
+    package_common(:ament_cmake_nested, name, workspace: workspace) do |pkg|
         pkg.parent_pkg = parent_pkg
         ament_package_setup(pkg)
         yield(pkg) if block_given?
@@ -46,10 +46,10 @@ def ament_nested_package(name, parent_pkg, workspace: Autoproj.workspace)
     current_set.add_version_control_entry(name, vcs_entry)
 end
 
-def ament_metapackage(name, *packages)
-    ament_package(name)
+def ament_cmake_metapackage(name, *packages)
+    ament_cmake_package(name)
     packages.each do |nested_pkg_name|
-        ament_nested_package(nested_pkg_name, package(name))
+        ament_cmake_nested_package(nested_pkg_name, package(name))
         package(name).depends_on nested_pkg_name
         move_package(nested_pkg_name, name)
     end
@@ -91,7 +91,7 @@ def colcon_metapackage(name, *packages)
   end
 end
 
-def ament_setuptools(name, workspace: Autoproj.workspace)
+def ament_python(name, workspace: Autoproj.workspace)
   package_common(:python_setuptools, name, workspace: workspace) do |pkg|
       Autoproj.env_add_path 'AMENT_PREFIX_PATH', pkg.prefix
       pkg.use_package_xml = true

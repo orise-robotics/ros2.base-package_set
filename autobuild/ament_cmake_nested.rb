@@ -1,4 +1,4 @@
-# Copyright 2021 Open Rise Robotics Modification
+# Copyright 2021 Open Rise Robotics
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,11 +13,11 @@
 # limitations under the License.
 
 module Autobuild
-    def self.ament_nested(options, &block)
-        AmentNested.new(options, &block)
+    def self.ament_cmake_nested(options, &block)
+        AmentCmakeNested.new(options, &block)
     end
 
-    class AmentNested < Autobuild::Ament
+    class AmentCmakeNested < Autobuild::AmentCmake
         attr_accessor :parent_pkg
 
         def update_srcdir

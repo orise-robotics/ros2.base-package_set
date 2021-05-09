@@ -45,16 +45,13 @@ Autoproj.config.set('USE_PYTHON', 'YES') unless Autoproj.config.get('USE_PYTHON'
 (['sh'] + Autoproj.config.user_shells).each do |shell|
   shell_helper = "setup.#{shell}"
   Autoproj.env_source_after(File.join(ROS_DISTRO_PATH, shell_helper), shell: shell) if File.join(ROS_DISTRO_PATH, shell_helper)
-end
-
-(['sh'] + Autoproj.config.user_shells).each do |shell|
-  shell_helper = "setup.#{shell}"
   FileUtils.touch File.join(Autoproj.prefix, shell_helper)
   Autoproj.env_source_after(File.join(Autoproj.prefix, shell_helper), shell: shell)
+
 end
 
-require_relative 'autobuild/ament'
-require_relative 'autobuild/ament_nested'
+require_relative 'autobuild/ament_cmake'
+require_relative 'autobuild/ament_cmake_nested'
 require_relative 'autobuild/colcon'
 require_relative 'autobuild/colcon_nested'
 require_relative 'autobuild/dsl'
