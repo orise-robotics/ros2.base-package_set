@@ -1,2 +1,2 @@
-# ros2_base-package_set
+# ros2.base-package_set
 Autoproj base package setup for ros2
