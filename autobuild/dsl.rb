@@ -12,14 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+def test_dir_setup(pkg)
+    test_dir = File.join(pkg.srcdir, 'test')
+    if File.directory?(test_dir)
+        pkg.test_utility.source_dir = File.join(pkg.builddir, 'test_results', pkg.name)
+    end
+end
+
 def ament_package_setup(pkg)
     pkg.update_srcdir
     pkg.post_import do
-        test_dir = File.join(pkg.srcdir, 'test')
-        if File.directory?(test_dir)
-            pkg.test_utility.source_dir = File.join(pkg.builddir, 'test_results', pkg.name)
-            pkg.define 'BUILD_TESTING', pkg.test_utility.enabled?
-        end
+        test_dir_setup(pkg)
+        pkg.define 'BUILD_TESTING', pkg.test_utility.enabled?
     end
 
     common_make_based_package_setup(pkg)
@@ -60,10 +64,7 @@ def colcon_package(name, workspace: Autoproj.workspace)
     pkg.use_package_xml = true
     pkg.update_srcdir
     pkg.post_import do
-      test_dir = File.join(pkg.srcdir, 'test')
-      if File.directory?(test_dir)
-          pkg.test_utility.source_dir = File.join(pkg.builddir, 'test_results', pkg.name)
-      end
+      test_dir_setup(pkg)
     end
     yield(pkg) if block_given?
   end
